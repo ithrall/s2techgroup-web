@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>(function(){var t=localStorage.getItem('s2-theme')||'auto';var l=t==='light'||(t==='auto'&&matchMedia('(prefers-color-scheme: light)').matches);if(l)document.documentElement.classList.add('s2-light');document.documentElement.setAttribute('data-theme',t);})();</script>
+<link rel="stylesheet" href="assets/site.css" />
+<title>Contacto — S2 Tech Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  .contact-grid { display: grid; grid-template-columns: 1.25fr 0.85fr; gap: 56px; margin-top: 8px; align-items: start; }
+
+  /* form */
+  .form-card { border: 1px solid var(--line-2); border-radius: 22px; padding: 40px; background: linear-gradient(180deg, var(--bg-2), var(--bg)); }
+  .field { margin-bottom: 22px; }
+  .field label { font-family: var(--mono); font-size: 12px; color: var(--muted); letter-spacing: 0.04em; display: block; margin-bottom: 9px; }
+  .field input, .field textarea, .field select {
+    width: 100%; font-family: var(--body); font-size: 15px; color: var(--txt);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 11px;
+    padding: 13px 15px; transition: border-color .2s, box-shadow .2s; outline: none;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--it); box-shadow: 0 0 0 3px rgba(61,139,255,0.16); }
+  .field textarea { resize: vertical; min-height: 120px; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--muted-2); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  /* division toggle */
+  .div-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 26px; }
+  .div-opt { position: relative; cursor: pointer; }
+  .div-opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .div-opt .box { border: 1px solid var(--line); border-radius: 13px; padding: 18px; display: flex; gap: 13px; align-items: center; transition: border-color .2s, background .2s; }
+  .div-opt .ico { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+  .div-opt.it .ico { background: rgba(61,139,255,0.13); color: var(--it-bright); }
+  .div-opt.sport .ico { background: rgba(91,75,245,0.15); color: var(--sport-bright); }
+  .div-opt .ico svg { width: 21px; height: 21px; }
+  .div-opt .t { font-family: var(--display); font-weight: 600; font-size: 15px; }
+  .div-opt .s { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .div-opt input:checked + .box { background: var(--panel); }
+  .div-opt.it input:checked + .box { border-color: var(--it); box-shadow: 0 0 0 3px rgba(61,139,255,0.14); }
+  .div-opt.sport input:checked + .box { border-color: var(--sport); box-shadow: 0 0 0 3px rgba(91,75,245,0.14); }
+
+  .form-card .btn { width: 100%; justify-content: center; font-size: 15px; padding: 15px; }
+  .form-note { font-family: var(--mono); font-size: 11.5px; color: var(--muted-2); margin-top: 14px; text-align: center; }
+
+  /* success */
+  .form-success { display: none; text-align: center; padding: 30px 10px; }
+  .form-success.on { display: block; }
+  .form-success .check { width: 64px; height: 64px; border-radius: 50%; background: rgba(61,139,255,0.15); color: var(--it-bright); display: grid; place-items: center; margin: 0 auto 20px; }
+  .form-success .check svg { width: 30px; height: 30px; }
+  .form-success h3 { font-size: 24px; }
+  .form-success p { color: var(--muted); margin-top: 10px; font-size: 15px; }
+
+  /* aside info */
+  .info-block { border: 1px solid var(--line); border-radius: 16px; padding: 26px; background: var(--bg-2); margin-bottom: 16px; }
+  .info-block h4 { font-family: var(--mono); font-size: 12px; color: var(--sky); letter-spacing: 0.06em; margin-bottom: 16px; }
+  .info-item { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 16px; }
+  .info-item:last-child { margin-bottom: 0; }
+  .info-item .ico { width: 38px; height: 38px; border-radius: 10px; flex: none; display: grid; place-items: center; background: var(--panel); color: var(--it-bright); border: 1px solid var(--line); }
+  .info-item .ico svg { width: 18px; height: 18px; }
+  .info-item .l { font-size: 12px; color: var(--muted); }
+  .info-item .v { font-size: 15px; font-weight: 600; margin-top: 2px; }
+  .info-item .v a:hover { color: var(--it-bright); }
+  .hours { font-family: var(--mono); font-size: 13px; color: var(--muted); line-height: 1.9; }
+  .hours b { color: var(--txt); font-weight: 400; }
+
+  /* ─ RESPONSIVE ─ */
+  @media (max-width: 860px) {
+    nav { padding: 14px 20px; } .wrap { padding: 0 24px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-header h1 { font-size: 50px; }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 580px) {
+    nav { padding: 12px 16px; } .wrap { padding: 0 16px; }
+    .contact-header { padding: 56px 0 32px; }
+    .contact-header h1 { font-size: 34px; }
+    .row2 { grid-template-columns: 1fr; }
+    .div-pick { grid-template-columns: 1fr; }
+    .cta-form { padding: 24px 18px; }
+    .foot-top { grid-template-columns: 1fr; }
+    .foot-bot { flex-direction: column; gap: 8px; font-size: 11px; }
+  }
+  /* ─ LIGHT MODE ─ */
+  html.s2-light .contact-header { background: linear-gradient(160deg,#e8f0ff 0%,#f4f7fc 60%); }
+  html.s2-light .contact-header h1 { color: var(--txt); }
+  html.s2-light .contact-header .lead { color: var(--muted); }
+  html.s2-light .crumb a { color: var(--it); } html.s2-light .crumb span { color: var(--muted); }
+  html.s2-light .cta-form { background: var(--bg-2); border-color: var(--line); }
+  html.s2-light .cta-form label { color: var(--txt); }
+  html.s2-light .cta-form input, html.s2-light .cta-form textarea, html.s2-light .cta-form select { background: var(--bg); border-color: var(--line); color: var(--txt); }
+  html.s2-light .cta-form input:focus, html.s2-light .cta-form textarea:focus { border-color: var(--it); }
+  html.s2-light .cta-form .form-note { color: var(--muted-2); }
+  html.s2-light .div-opt .box { background: var(--bg); border-color: var(--line); }
+  html.s2-light .div-opt .box .t { color: var(--txt); } html.s2-light .div-opt .box .s { color: var(--muted); }
+  html.s2-light .info-block { border-color: var(--line); }
+  html.s2-light .info-block h4 { color: var(--it); }
+  html.s2-light .info-item .l { color: var(--muted-2); } html.s2-light .info-item .v { color: var(--txt); }
+  html.s2-light .info-item .v a { color: var(--it); }
+  html.s2-light .hours { color: var(--muted); } html.s2-light .hours b { color: var(--txt); }
+</style>
+</head>
+<body>
+  <nav>
+    <a href="S2 Tech Group.html">
+      <img class="brand-logo brand-logo-dark" src="assets/logo-nav-white.png" alt="S2 Tech Group" />
+      <img class="brand-logo brand-logo-light" src="assets/logo-nav-color.png" alt="S2 Tech Group" />
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="consultoria-it.html" data-en="/it-consulting">/consultoría-it</a>
+      <a href="deporte.html" data-en="/sports">/deporte</a>
+      <a href="S2 Tech Group.html#cases" data-en="/cases">/casos</a>
+      <a href="contacto.html" class="active" data-en="/contact">/contacto</a>
+    </div>
+    <div class="navright">
+      <div class="lang"><button data-lang="es">ES</button><span class="sep">/</span><button data-lang="en">EN</button></div>
+      <a href="#form" class="btn btn-nav-cta" data-en="Request a quote">Pedir presupuesto</a>
+    </div>
+    <button class="ham" id="ham-btn" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <header class="page-hero plain grid-bg">
+    <div class="hglow"></div>
+    <div class="wrap">
+      <div class="crumb"><a href="S2 Tech Group.html" data-en="home">inicio</a> <span>/</span> <span data-en="contact">contacto</span></div>
+      <h1 data-en-html="Tell us about your <span class=&quot;g-it&quot;>project</span>">Cuéntanos tu <span class="g-it">proyecto</span></h1>
+      <p class="lead" data-en="Need to strengthen your IT infrastructure or set up the technology for your next event? Fill in the form and we'll get back to you with a tailored quote.">¿Necesitas reforzar tu infraestructura IT o montar la tecnología de tu próximo evento? Rellena el formulario y te respondemos con un presupuesto a medida.</p>
+    </div>
+  </header>
+
+  <section class="block" id="form" style="padding-top:64px">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div class="form-card">
+          <form id="quote-form" novalidate>
+            <div class="field">
+              <label data-en="Which division are you writing about?">¿Sobre qué división nos escribes?</label>
+              <div class="div-pick">
+                <label class="div-opt it">
+                  <input type="radio" name="division" value="it" checked />
+                  <div class="box">
+                    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/></svg></div>
+                    <div><div class="t">Consultoría IT</div><div class="s" data-en="Infrastructure, security, support">Infraestructura, seguridad, soporte</div></div>
+                  </div>
+                </label>
+                <label class="div-opt sport">
+                  <input type="radio" name="division" value="deporte" />
+                  <div class="box">
+                    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+                    <div><div class="t">Tecnología &amp; Deporte</div><div class="s" data-en="Events, scoring, equipment">Eventos, puntuación, equipamiento</div></div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field"><label data-en="Name">Nombre</label><input type="text" name="nombre" placeholder="Tu nombre" data-en-ph="Your name" required /></div>
+              <div class="field"><label data-en="Company / Club">Empresa / Club</label><input type="text" name="empresa" placeholder="Nombre de tu organización" data-en-ph="Your organization's name" /></div>
+            </div>
+            <div class="row2">
+              <div class="field"><label data-en="Email">Email</label><input type="email" name="email" placeholder="tu@email.com" data-en-ph="you@email.com" required /></div>
+              <div class="field"><label data-en="Phone">Teléfono</label><input type="tel" name="telefono" placeholder="+507 ____ ____" /></div>
+            </div>
+            <div class="field"><label data-en="How can we help you?">¿En qué podemos ayudarte?</label><textarea name="mensaje" placeholder="Cuéntanos brevemente tu proyecto, fechas o necesidades..." data-en-ph="Tell us briefly about your project, dates or needs..."></textarea></div>
+            <button type="submit" class="btn" data-en="Send request →">Enviar solicitud →</button>
+            <p class="form-note" data-en="We reply within 24-48 working hours. No commitment.">Te respondemos en menos de 24-48 h laborables. Sin compromiso.</p>
+          </form>
+          <div class="form-success" id="success">
+            <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <h3 data-en="Request sent!">¡Solicitud enviada!</h3>
+            <p data-en="Thanks for contacting S2 Tech Group. We'll get back to you very soon with a tailored proposal.">Gracias por contactar con S2 Tech Group. Te responderemos muy pronto con una propuesta a medida.</p>
+          </div>
+        </div>
+
+        <aside>
+          <div class="info-block">
+            <h4 data-en="// direct contact">// contacto directo</h4>
+            <div class="info-item">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg></div>
+              <div><div class="l">Email</div><div class="v"><a href="mailto:rsanchez@s2techgroup.net">rsanchez@s2techgroup.net</a></div></div>
+            </div>
+            <div class="info-item">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2z"/></svg></div>
+              <div><div class="l" data-en="Phone">Teléfono</div><div class="v"><a href="tel:+50763601775">+507 6360-1775</a></div></div>
+            </div>
+            <div class="info-item">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/></svg></div>
+              <div><div class="l">Web</div><div class="v">s2techgroup.net</div></div>
+            </div>
+          </div>
+          <div class="info-block">
+            <h4 data-en="// hours">// horario</h4>
+            <div class="hours">
+              <b data-en="Mon – Fri">Lun – Vie</b> · 9:00 – 18:00<br />
+              <b data-en="Events">Eventos</b> · <span data-en="weekend availability">disponibilidad fin de semana</span><br />
+              <b data-en="IT support">Soporte IT</b> · <span data-en="per contract">según contrato</span>
+            </div>
+          </div>
+          <div class="info-block">
+            <h4 data-en="// two divisions">// dos divisiones</h4>
+            <p class="foot-desc" style="max-width:none" data-en="No matter which one you write to us about: we're a single technical team behind your infrastructure and your events.">Da igual por dónde nos escribas: somos un solo equipo técnico detrás de tu infraestructura y de tus eventos.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div>
+          <img class="foot-logo" src="assets/logo-nav-white.png" alt="S2 Tech Group" />
+          <p class="foot-desc" data-en="IT consulting and technology for sport. One company, two divisions.">Consultoría informática y tecnología para el deporte. Una empresa, dos divisiones.</p>
+        </div>
+        <div><h5 data-en="// it consulting">// consultoría it</h5><a href="consultoria-it.html#servicios" data-en="Infrastructure &amp; networks">Infraestructura &amp; redes</a><a href="consultoria-it.html#servicios">Ciberseguridad</a><a href="consultoria-it.html#servicios" data-en="Technical support">Soporte técnico</a></div>
+        <div><h5 data-en="// sport">// deporte</h5><a href="deporte.html#servicios" data-en="Scoring software">Software de puntuación</a><a href="deporte.html#servicios">Tablets &amp; clickers</a><a href="deporte.html#resultados" data-en="Live results">Resultados en directo</a></div>
+        <div><h5 data-en="// company">// empresa</h5><a href="S2 Tech Group.html#cases" data-en="Case studies">Casos de éxito</a><a href="contacto.html" data-en="Contact">Contacto</a><a href="#" data-en="Legal notice">Aviso legal</a></div>
+      </div>
+      <div class="foot-bot"><span>© 2026 S2 Tech Group · s2techgroup.net</span><span data-en="legal notice · privacy · ES / EN">aviso legal · privacidad · ES / EN</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
+</body>
+</html>

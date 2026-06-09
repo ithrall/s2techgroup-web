@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>(function(){var t=localStorage.getItem('s2-theme')||'auto';var l=t==='light'||(t==='auto'&&matchMedia('(prefers-color-scheme: light)').matches);if(l)document.documentElement.classList.add('s2-light');document.documentElement.setAttribute('data-theme',t);})();</script>
+<link rel="stylesheet" href="assets/site.css" />
+<title>Tecnología &amp; Deporte — S2 Tech Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* sport accent overrides for this page */
+  .sp .navlinks a:hover, .sp .navlinks a.active { color: var(--sport-bright); }
+  /* product cards */
+  .prods { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-top: 56px; }
+  .prod { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--bg-2); display: flex; flex-direction: column; transition: transform .25s, border-color .25s, box-shadow .25s; }
+  .prod:hover { transform: translateY(-5px); border-color: rgba(125,112,255,0.5); box-shadow: 0 24px 50px rgba(91,75,245,0.14); }
+  .prod .img { height: 180px; background: linear-gradient(150deg,#1c1453,#0c0a1f); position: relative; }
+  .prod .img .badge { position: absolute; top: 16px; left: 16px; font-family: var(--mono); font-size: 11px; color: var(--sport-bright); background: rgba(91,75,245,0.18); border: 1px solid rgba(125,112,255,0.3); padding: 4px 10px; border-radius: 999px; }
+  .prod .body { padding: 26px; flex: 1; display: flex; flex-direction: column; }
+  .prod .ico { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: rgba(91,75,245,0.14); color: var(--sport-bright); box-shadow: inset 0 0 0 1px rgba(125,112,255,0.25); margin-bottom: 16px; margin-top: -50px; position: relative; z-index: 2; background-clip: padding-box; }
+  .prod .ico svg { width: 24px; height: 24px; }
+  .prod h3 { font-size: 22px; }
+  .prod p { color: var(--muted); font-size: 15px; margin-top: 10px; }
+  .prod ul { list-style: none; margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
+  .prod ul li { font-family: var(--mono); font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 9px; }
+  .prod ul li::before { content:""; width: 5px; height: 5px; border-radius: 50%; background: var(--sport-bright); flex: none; }
+
+  /* how it works flow */
+  .flow { background: linear-gradient(180deg, var(--bg), var(--bg-2)); }
+  .flow-track { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; margin-top: 52px; }
+  .fstep { border: 1px solid var(--line); border-radius: 14px; padding: 26px 22px; background: var(--bg-2); position: relative; }
+  .fstep .n { font-family: var(--mono); font-size: 12px; color: var(--sport-bright); }
+  .fstep h4 { font-size: 17px; margin-top: 12px; }
+  .fstep p { color: var(--muted); font-size: 13px; margin-top: 8px; }
+  .fstep .arrow { position: absolute; right: -11px; top: 50%; transform: translateY(-50%); color: var(--muted-2); z-index: 3; }
+  .fstep:last-child .arrow { display: none; }
+
+  /* live results mock */
+  .live { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 12px; }
+  .live-copy h2 { font-size: 42px; letter-spacing: -0.03em; }
+  .live-copy .k { font-family: var(--mono); font-size: 13px; color: var(--sky); display: inline-flex; align-items: center; gap: 10px; }
+  .live-copy .k::before { content:""; width: 22px; height: 1px; background: var(--sky); }
+  .live-copy p { color: var(--muted); font-size: 18px; margin-top: 16px; }
+  .live-copy ul { list-style: none; margin-top: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .live-copy ul li { display: flex; gap: 12px; font-size: 15px; align-items: flex-start; }
+  .live-copy ul li svg { width: 19px; height: 19px; color: var(--sport-bright); flex: none; margin-top: 2px; }
+  .scoreboard { border: 1px solid var(--line-2); border-radius: 18px; overflow: hidden; background: var(--bg-2); box-shadow: 0 30px 70px rgba(0,0,0,0.4); }
+  .sb-top { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .sb-top .liveb { display: flex; align-items: center; gap: 8px; color: #ff5a5a; }
+  .sb-top .liveb .dot { width: 8px; height: 8px; border-radius: 50%; background: #ff5a5a; animation: pulse 1.4s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.35;} }
+  .sb-match { padding: 26px 24px; }
+  .sb-cat { font-family: var(--mono); font-size: 12px; color: var(--muted-2); text-align: center; }
+  .sb-fight { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; margin-top: 16px; }
+  .sb-comp { text-align: center; }
+  .sb-comp .belt { width: 100%; height: 6px; border-radius: 3px; margin-bottom: 14px; }
+  .sb-comp.aka .belt { background: #ff4d4d; }
+  .sb-comp.ao .belt { background: var(--it); }
+  .sb-comp .name { font-family: var(--display); font-weight: 600; font-size: 17px; }
+  .sb-comp .club { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .sb-comp .score { font-family: var(--display); font-size: 64px; font-weight: 700; line-height: 1; margin-top: 12px; letter-spacing: -0.03em; }
+  .sb-comp.aka .score { color: #ff6b6b; } .sb-comp.ao .score { color: var(--it-bright); }
+  .sb-vs { font-family: var(--mono); font-size: 13px; color: var(--muted-2); }
+  .sb-timer { text-align: center; font-family: var(--display); font-size: 22px; font-weight: 600; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .sb-timer span { color: var(--sport-bright); }
+
+  /* event types */
+  .etypes { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 40px; }
+  .etypes span { font-family: var(--mono); font-size: 13px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 9px 16px; }
+
+  /* ─ RESPONSIVE ─ */
+  @media (max-width: 860px) {
+    nav { padding: 14px 20px; } .wrap { padding: 0 24px; }
+    .page-hero { padding: 72px 0 40px; } .page-hero h1 { font-size: 50px; }
+    .hero-actions { flex-wrap: wrap; gap: 10px; }
+    .prods { grid-template-columns: 1fr 1fr; }
+    .flow-track { grid-template-columns: 1fr 1fr; } .fstep .arrow { display: none; }
+    .live { grid-template-columns: 1fr; }
+    .foot-top { grid-template-columns: 1fr 1fr; }
+    section.block { padding: 72px 0; }
+  }
+  @media (max-width: 580px) {
+    nav { padding: 12px 16px; } .wrap { padding: 0 16px; }
+    .page-hero { padding: 56px 0 28px; } .page-hero h1 { font-size: 34px; }
+    .hero-actions .btn { font-size: 14px; padding: 10px 16px; }
+    .prods { grid-template-columns: 1fr; }
+    .flow-track { grid-template-columns: 1fr; }
+    .prod-card { padding: 22px 18px; }
+    .cta-box { padding: 36px 20px; } .cta-box h2 { font-size: 30px; }
+    .cta-actions { flex-direction: column; } .cta-actions .btn { text-align: center; }
+    .foot-top { grid-template-columns: 1fr; }
+    .foot-bot { flex-direction: column; gap: 8px; font-size: 11px; }
+    section.block { padding: 56px 0; }
+    .etypes { gap: 8px; }
+  }
+  /* ─ LIGHT MODE ─ */
+  html.s2-light .page-hero.sport { background: linear-gradient(160deg,#e0dcff 0%,#f4f7fc 60%); }
+  html.s2-light .page-hero h1 { color: var(--txt); } html.s2-light .page-hero .lead { color: var(--muted); }
+  html.s2-light .hglow { background: radial-gradient(58% 48% at 16% 0%, rgba(90,78,224,0.12), transparent 62%), radial-gradient(40% 40% at 88% 20%, rgba(27,110,232,0.08), transparent 60%); }
+  html.s2-light .crumb a { color: var(--sport); } html.s2-light .crumb span { color: var(--muted); }
+  html.s2-light .div-tag { background: rgba(90,78,224,0.10); color: var(--sport); }
+  html.s2-light .prod-card { background: var(--bg-2); border-color: var(--line); }
+  html.s2-light .prod-card h3 { color: var(--txt); } html.s2-light .prod-card p { color: var(--muted); }
+  html.s2-light .prod-card ul li { color: var(--muted); }
+  html.s2-light .sec-head .k { color: var(--sport); } html.s2-light .sec-head .k::before { background: var(--sport); }
+  html.s2-light .fstep { border-color: var(--line); }
+  html.s2-light .fstep h4 { color: var(--txt); } html.s2-light .fstep p { color: var(--muted); }
+  html.s2-light .fstep .n { color: var(--sport); }
+  html.s2-light .live { background: var(--bg); }
+  html.s2-light .live-info h2 { color: var(--txt); } html.s2-light .live-info p { color: var(--muted); }
+  html.s2-light .live-info ul li { color: var(--muted); }
+  html.s2-light .sb-wrap { border-color: var(--line); background: #fff; }
+  html.s2-light .sb-top { background: var(--sport); }
+  html.s2-light .sb-score .team { color: var(--txt); }
+  html.s2-light .sb-timer { color: var(--muted); }
+  html.s2-light .cta-box { background: var(--bg-2); border-color: var(--line); }
+  html.s2-light .cta-box .glow { background: radial-gradient(50% 120% at 80% 0%, rgba(90,78,224,0.12), transparent 60%); }
+  html.s2-light .cta-box h2 { color: var(--txt); } html.s2-light .cta-box p { color: var(--muted); }
+  html.s2-light .etypes span { color: var(--muted); border-color: var(--line); }
+</style>
+</head>
+<body class="sp">
+  <nav>
+    <a href="S2 Tech Group.html">
+      <img class="brand-logo brand-logo-dark" src="assets/logo-nav-white.png" alt="S2 Tech Group" />
+      <img class="brand-logo brand-logo-light" src="assets/logo-nav-color.png" alt="S2 Tech Group" />
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="consultoria-it.html" data-en="/it-consulting">/consultoría-it</a>
+      <a href="deporte.html" class="active" data-en="/sports">/deporte</a>
+      <a href="S2 Tech Group.html#cases" data-en="/cases">/casos</a>
+      <a href="contacto.html" data-en="/contact">/contacto</a>
+    </div>
+    <div class="navright">
+      <div class="lang"><button data-lang="es">ES</button><span class="sep">/</span><button data-lang="en">EN</button></div>
+      <a href="contacto.html" class="btn btn-sport btn-nav-cta" data-en="Request a quote">Pedir presupuesto</a>
+    </div>
+    <button class="ham" id="ham-btn" aria-label="Menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <header class="page-hero sport grid-bg">
+    <div class="hglow"></div>
+    <div class="wrap">
+      <div class="crumb"><a href="S2 Tech Group.html" data-en="home">inicio</a> <span>/</span> <span class="div-tag" data-en="division 02">división 02</span> <span data-en="technology &amp; sport">tecnología &amp; deporte</span></div>
+      <h1 data-en-html="Your competition, <span class=&quot;g-sport&quot;>in real time</span>">Tu competición, <span class="g-sport">en tiempo real</span></h1>
+      <p class="lead" data-en="We bring technology to your sports events: scoring software, tablets and clickers for judging, and live results for spectators, athletes and federations. Karate specialists.">Llevamos la tecnología a tus eventos deportivos: software de puntuación, tablets y clickers para el juzgamiento, y resultados en directo para público, deportistas y federaciones. Especialistas en Karate.</p>
+      <div class="hero-actions">
+        <a href="contacto.html" class="btn btn-sport" data-en="Request for my event →">Solicitar para mi evento →</a>
+        <a href="#resultados" class="btn btn-ghost" data-en="See live results">Ver resultados en directo</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="block" id="servicios">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="k" data-en="what we bring to your event">qué aportamos a tu evento</div>
+        <h2 data-en="The complete kit to compete">El equipo completo para competir</h2>
+        <p data-en="Software, hardware and live support. We bring it all and set it up in your venue.">Software, hardware y soporte en directo. Lo llevamos todo y lo montamos en tu pabellón.</p>
+      </div>
+      <div class="prods">
+        <div class="prod">
+          <div class="img ph"><span class="badge">software</span><span class="ph-label">foto · pantalla de puntuación</span></div>
+          <div class="body">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="13" y2="15"/></svg></div>
+            <h3>Software de Puntuación</h3>
+            <p data-en="Competition platform to manage bouts, categories, draws and live scoreboards.">Plataforma de competición para gestionar combates, categorías, sorteos y marcadores en vivo.</p>
+            <ul><li data-en="Category and bracket management">Gestión de categorías y brackets</li><li data-en="Big-screen scoreboard">Marcador en pantalla gigante</li><li data-en="Kata and kumite">Kata y kumite</li></ul>
+          </div>
+        </div>
+        <div class="prod">
+          <div class="img ph"><span class="badge">hardware</span><span class="ph-label">foto · tablets &amp; clickers</span></div>
+          <div class="body">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1" fill="currentColor"/></svg></div>
+            <h3>Tablets &amp; Clickers</h3>
+            <p data-en="Judging equipment: tablets for referees and clickers (joystick) to score instantly.">Equipamiento de juzgamiento: tablets para árbitros y clickers (joystick) para puntuar al instante.</p>
+            <ul><li data-en="Wireless clickers per judge">Clickers inalámbricos por juez</li><li data-en="Tablets for table and referees">Tablets para mesa y árbitros</li><li data-en="Real-time synchronization">Sincronización en tiempo real</li></ul>
+          </div>
+        </div>
+        <div class="prod">
+          <div class="img" style="position:relative;overflow:hidden;"><span class="badge" style="position:relative;z-index:2;">live</span><img src="assets/foto-resultados.png" alt="Web de resultados en directo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;" /></div>
+          <div class="body">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+            <h3>Resultados en Directo</h3>
+            <p data-en="Public real-time scoreboard website, accessible from any phone in the venue.">Web pública de marcadores en tiempo real, accesible desde cualquier móvil del pabellón.</p>
+            <ul><li data-en="Live results per tatami">Resultados live por tatami</li><li data-en="Public access via QR">Acceso público vía QR</li><li data-en="History and standings">Histórico y clasificaciones</li></ul>
+          </div>
+        </div>
+      </div>
+      <div class="etypes">
+        <span data-en="# Karate championships"># campeonatos de Karate</span><span data-en="# regional leagues"># ligas regionales</span><span data-en="# international opens"># open internacionales</span><span data-en="# club events"># eventos de club</span><span data-en="# multi-tatami"># multitatami</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block flow">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="k" data-en="how an event works">cómo funciona un evento</div>
+        <h2 data-en="From registration to podium, paperless">De la inscripción al pódium, sin papeles</h2>
+      </div>
+      <div class="flow-track">
+        <div class="fstep"><div class="n">01</div><h4 data-en="Registration">Inscripción</h4><p data-en="Clubs and athletes register online; we prepare the categories.">Clubes y deportistas se inscriben online; nosotros preparamos las categorías.</p><div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+        <div class="fstep"><div class="n">02</div><h4 data-en="Draw">Sorteo</h4><p data-en="Automatic generation of brackets and bout order per tatami.">Generación automática de cuadros y orden de combates por tatami.</p><div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+        <div class="fstep"><div class="n">03</div><h4 data-en="Judging">Juzgamiento</h4><p data-en="Judges score with clickers; the scoreboard updates instantly.">Los jueces puntúan con clickers; el marcador se actualiza al instante.</p><div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+        <div class="fstep"><div class="n">04</div><h4 data-en="Live">Directo</h4><p data-en="The audience follows results in real time from their phone.">El público sigue los resultados en tiempo real desde su móvil.</p><div class="arrow"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div>
+        <div class="fstep"><div class="n">05</div><h4 data-en="Results">Resultados</h4><p data-en="Standings, medal tables and records ready when it ends.">Clasificaciones, medalleros y actas listas al terminar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="resultados" style="padding-top:0">
+    <div class="wrap">
+      <div class="live">
+        <div class="live-copy">
+          <div class="k" data-en="live results">resultados en directo</div>
+          <h2 data-en="The scoreboard everyone wants to watch">El marcador que todos quieren mirar</h2>
+          <p data-en="A clear, fast results website built for the stands and for home. Every bout, every tatami, to the second.">Una web de resultados clara y rápida, pensada para la grada y para casa. Cada combate, cada tatami, al segundo.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Public access with QR at the venue">Acceso público con QR en el pabellón</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Scoreboard on big screen and mobile">Marcador en pantalla gigante y en móvil</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg><span data-en="Automatic standings and medal tables">Clasificaciones y medalleros automáticos</span></li>
+          </ul>
+        </div>
+        <div class="scoreboard">
+          <div class="sb-top"><span>TATAMI 1 · KUMITE</span><span class="liveb"><span class="dot"></span><span data-en="LIVE">EN DIRECTO</span></span></div>
+          <div class="sb-match">
+            <div class="sb-cat" data-en="Cadet Male −70 kg · Semifinal">Cadete Masculino −70 kg · Semifinal</div>
+            <div class="sb-fight">
+              <div class="sb-comp aka">
+                <div class="belt"></div>
+                <div class="name">A. MARTÍN</div>
+                <div class="club">C.D. Shotokan</div>
+                <div class="score">6</div>
+              </div>
+              <div class="sb-vs">VS</div>
+              <div class="sb-comp ao">
+                <div class="belt"></div>
+                <div class="name">R. GÓMEZ</div>
+                <div class="club">Karate Kai</div>
+                <div class="score">4</div>
+              </div>
+            </div>
+            <div class="sb-timer">⏱ <span>1:24</span> <span data-en="remaining">restante</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <div class="cta-box grid-bg">
+        <div class="glow"></div>
+        <h2 data-en="Organizing an event? We'll get it running.">¿Organizas un evento? Lo ponemos en marcha.</h2>
+        <p data-en="Tell us the competition type, date and number of tatamis. We'll prepare a tailored quote with all the equipment.">Cuéntanos el tipo de competición, fecha y número de tatamis. Te preparamos un presupuesto a medida con todo el equipamiento.</p>
+        <div class="cta-actions">
+          <a href="contacto.html" class="btn btn-sport" data-en="Request for my event →">Solicitar para mi evento →</a>
+          <a href="consultoria-it.html" class="btn btn-ghost" data-en="See IT division">Ver división IT</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-top">
+        <div>
+          <img class="foot-logo" src="assets/logo-nav-white.png" alt="S2 Tech Group" />
+          <p class="foot-desc" data-en="IT consulting and technology for sport. One company, two divisions.">Consultoría informática y tecnología para el deporte. Una empresa, dos divisiones.</p>
+        </div>
+        <div><h5 data-en="// it consulting">// consultoría it</h5><a href="consultoria-it.html#servicios" data-en="Infrastructure &amp; networks">Infraestructura &amp; redes</a><a href="consultoria-it.html#servicios">Ciberseguridad</a><a href="consultoria-it.html#servicios" data-en="Technical support">Soporte técnico</a></div>
+        <div><h5 data-en="// sport">// deporte</h5><a href="deporte.html#servicios" data-en="Scoring software">Software de puntuación</a><a href="deporte.html#servicios">Tablets &amp; clickers</a><a href="deporte.html#resultados" data-en="Live results">Resultados en directo</a></div>
+        <div><h5 data-en="// company">// empresa</h5><a href="S2 Tech Group.html#cases" data-en="Case studies">Casos de éxito</a><a href="contacto.html" data-en="Contact">Contacto</a><a href="#" data-en="Legal notice">Aviso legal</a></div>
+      </div>
+      <div class="foot-bot"><span>© 2026 S2 Tech Group · s2techgroup.net</span><span data-en="legal notice · privacy · ES / EN">aviso legal · privacidad · ES / EN</span></div>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>
