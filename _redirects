@@ -1,0 +1,6 @@
+# Netlify redirects
+# Redirect old filename to index
+/S2%20Tech%20Group.html   /   301
+
+# Redirect bare domain to index
+/index.html   /   301
