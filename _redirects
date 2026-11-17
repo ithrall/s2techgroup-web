@@ -1,6 +1,10 @@
-# Netlify redirects
-# Redirect old filename to index
-/S2%20Tech%20Group.html   /   301
-
-# Redirect bare domain to index
-/index.html   /   301
+# Netlify · redirecciones
+# Las páginas del sitio anterior llevan a la página nueva.
+# El signo ! las fuerza aunque el archivo viejo siga en el repositorio.
+/S2%20Tech%20Group.html   /        301!
+/consultoria-it           /        301!
+/consultoria-it.html      /        301!
+/deporte                  /        301!
+/deporte.html             /        301!
+/contacto                 /#demo   301!
+/contacto.html            /#demo   301!
